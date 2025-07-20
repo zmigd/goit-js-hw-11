@@ -6,6 +6,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+const loader = document.querySelector('.loader');
 
 export function createGallery(images) {
   const markup = createMarkup(images);
@@ -46,11 +47,12 @@ export function clearGallery() {
     gallery.innerHTML = '';
   }
   
-  export function showLoader() {
-    document.querySelector('.loader')?.classList.remove('is-hidden');
-  }
-  
-  export function hideLoader() {
-    document.querySelector('.loader')?.classList.add('is-hidden');
-  }
-  
+ 
+
+export function showLoader() {
+  loader?.classList.remove('is-hidden');
+}
+
+export function hideLoader() {
+  loader?.classList.add('is-hidden');
+}
