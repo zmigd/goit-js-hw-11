@@ -1,16 +1,14 @@
 import axios from 'axios';
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
-import { createGallery } from './render-functions';
-import { showLoader, hideLoader } from './render-functions';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import { createGallery, showLoader, hideLoader } from './render-functions';
 
 const API_KEY = '51403222-4fbdc3af82d89be9b055ca0a4';
 const URL = 'https://pixabay.com/api/';
-const loader = document.querySelector('.loader');
-
 
 export function getImagesByQuery(query) {
-    showLoader();
+  showLoader();
+
   return axios
     .get(URL, {
       params: {
@@ -22,8 +20,9 @@ export function getImagesByQuery(query) {
       },
     })
     .then(res => {
-        hideLoader()
+      hideLoader();
       const images = res.data.hits;
+
       if (images.length === 0) {
         document.querySelector('.gallery').innerHTML = '';
         iziToast.error({
@@ -35,10 +34,12 @@ export function getImagesByQuery(query) {
         });
         return;
       }
+
       createGallery(images);
+      return images;
     })
     .catch(error => {
-        hideLoader()
+      hideLoader();
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again later.',
@@ -47,5 +48,6 @@ export function getImagesByQuery(query) {
         color: 'red',
       });
       console.error(error);
+      throw error;
     });
 }

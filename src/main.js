@@ -1,5 +1,7 @@
 import { getImagesByQuery } from './js/pixabay-api';
 import { clearGallery } from './js/render-functions';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const form = document.querySelector('.form');
 
@@ -12,6 +14,12 @@ form.addEventListener('submit', (e) => {
     clearGallery();
     getImagesByQuery(input);
   } else {
-    console.warn('Введіть слово для пошуку!');
+    iziToast.warning({
+      title: 'Warning',
+      message: 'Please enter a search term!',
+      position: 'topRight',
+      timeout: 3000,
+      color: 'orange',
+    });
   }
 });
