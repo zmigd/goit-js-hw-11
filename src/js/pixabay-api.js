@@ -32,7 +32,7 @@ export function getImagesByQuery(query) {
           timeout: 5000,
           color: 'red',
         });
-        return;
+        return [];
       }
 
       createGallery(images);
@@ -48,6 +48,6 @@ export function getImagesByQuery(query) {
         color: 'red',
       });
       console.error(error);
-      throw error;
+      return []; 
     });
 }

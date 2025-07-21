@@ -12,7 +12,18 @@ form.addEventListener('submit', (e) => {
 
   if (input !== '') {
     clearGallery();
-    getImagesByQuery(input);
+    getImagesByQuery(input)
+      .then(images => {
+        if (images && images.length > 0) {
+          iziToast.success({
+            title: 'Success',
+            message: `Found ${images.length} images!`,
+            position: 'topRight',
+            timeout: 3000,
+            color: 'green',
+          });
+        }
+      });
   } else {
     iziToast.warning({
       title: 'Warning',
