@@ -1,58 +1,39 @@
+
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector('.gallery');
-const loader = document.querySelector('.loader');
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
-export function createGallery(images) {
-  const markup = createMarkup(images);
-  gallery.innerHTML = markup;
-  lightbox.refresh();
-}
-
-function createMarkup(images) {
-  return images
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => {
-        return `
-        <a class="gallery-item" href="${largeImageURL}">
-          <img src="${webformatURL}" alt="${tags}" width="360" height="200" />
-          <div class="gallery-info">
-            <ul class="info-list">
-              <li><h3>Likes</h3><p>${likes}</p></li>
-              <li><h3>Views</h3><p>${views}</p></li>
-              <li><h3>Comments</h3><p>${comments}</p></li>
-              <li><h3>Downloads</h3><p>${downloads}</p></li>
-            </ul>
-          </div>
-        </a>
-      `;
-      }
-    )
-    .join('');
-}
+let lightbox = null;
 
 export function clearGallery() {
-  gallery.innerHTML = '';
+  const gallery = document.querySelector('.gallery');
+  if (gallery) gallery.innerHTML = '';
+}
+
+export function createGallery(images) {
+  const gallery = document.querySelector('.gallery');
+
+  const markup = images.map(({ webformatURL, largeImageURL, tags }) => {
+    return `
+      <li class="gallery-item">
+        <a href="${largeImageURL}">
+          <img src="${webformatURL}" alt="${tags}" />
+        </a>
+      </li>`;
+  }).join('');
+
+  gallery.insertAdjacentHTML('beforeend', markup);
+
+  if (lightbox) {
+    lightbox.refresh();
+  } else {
+    lightbox = new SimpleLightbox('.gallery a');
+  }
 }
 
 export function showLoader() {
-  loader?.classList.remove('is-hidden');
+  document.querySelector('.loader')?.classList.remove('is-hidden');
 }
 
 export function hideLoader() {
-  loader?.classList.add('is-hidden');
+  document.querySelector('.loader')?.classList.add('is-hidden');
 }
